@@ -3,47 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        SwiftDeliver - Fast & Reliable Delivery
-    </title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Simple Calculator</title>
+    <style>
+        /* Basic Styling for Calculator */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .calculator {
+            width: 300px;
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .display {
+            width: 100%;
+            height: 50px;
+            background: #fff;
+            font-size: 1.5em;
+            text-align: right;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            padding: 15px;
+            font-size: 1.2em;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .operator {
+            background: #ff9500;
+            color: white;
+        }
+
+        .equal {
+            background: #28a745;
+            color: white;
+        }
+
+        .clear {
+            background: #dc3545;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>SwiftDeliver</h1>
-    </header>
-    
-    <main>
-        <section class="hero">
-            <h1>Fast & Reliable Delivery</h1>
-            <p>Get your packages delivered swiftly with                  our top-notch service.</p>
-            <button>Sign Up Now</button>
-        </section>  
-        
-        <section class="features">
-            <div class="feature">
-                <img src="icon1.png" alt="Fast Delivery">
-                <h3>Fast Delivery</h3>
-                <p>We ensure your packages arrive on time, every time.</p>
-            </div>
-            
-            <div class="feature">
-                <img src="icon2.jpg" alt="Secure Handling">
-                <h3>Secure Handling</h3>
-                <p>Our service guarantees safe and secure handling of your items.</p>
-            </div>
-            
-            <div class="feature">
-                <img src="icon3.jpg" alt="24/7 Support">
-                <h3>24/7 Support</h3>
-                <p>We are always available to assist you with your deliveries.</p>
-            </div>
-        </section>
-    </main>
+    <!-- Calculator UI -->
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <button onclick="clearDisplay()" class="clear">C</button>
+            <button onclick="appendNumber('7')">7</button>
+            <button onclick="appendNumber('8')">8</button>
+            <button onclick="appendNumber('9')">9</button>
+            <button onclick="setOperation('/')" class="operator">÷</button>
+            <button onclick="appendNumber('4')">4</button>
+            <button onclick="appendNumber('5')">5</button>
+            <button onclick="appendNumber('6')">6</button>
+            <button onclick="setOperation('*')" class="operator">×</button>
+            <button onclick="appendNumber('1')">1</button>
+            <button onclick="appendNumber('2')">2</button>
+            <button onclick="appendNumber('3')">3</button>
+            <button onclick="setOperation('-')" class="operator">-</button>
+            <button onclick="appendNumber('0')">0</button>
+            <button onclick="setOperation('+')" class="operator">+</button>
+            <button onclick="calculate()" class="equal">=</button>
+        </div>
+    </div>
 
-    <footer>
-        <p>Contact us: swiftdeliver@gmail.com | +234 812 456 7890</p>
-        <p>&copy; 2025 SwiftDeliver. All Rights Reserved.</p>
-    </footer>
+    <script>
+        let currentInput = "";
+        let operator = "";
+        let firstOperand = "";
+
+        // Function to append a number to the display
+        function appendNumber(number) {
+            if (currentInput.length < 10) {
+                currentInput += number;
+                updateDisplay(currentInput);
+            }
+        }
+
+        // Function to set an operator
+        function setOperation(op) {
+            if (currentInput === "") return;
+            firstOperand = currentInput;
+            operator = op;
+            currentInput = "";
+        }
+
+        // Function to perform calculation
+        function calculate() {
+            if (firstOperand === "" || currentInput === "") return;
+            let result;
+            switch (operator) {
+                case '+':
+                    result = parseFloat(firstOperand) + parseFloat(currentInput);
+                    break;
+                case '-':
+                    result = parseFloat(firstOperand) - parseFloat(currentInput);
+                    break;
+                case '*':
+                    result = parseFloat(firstOperand) * parseFloat(currentInput);
+                    break;
+                case '/':
+                    result = parseFloat(firstOperand) / parseFloat(currentInput);
+                    break;
+                default:
+                    return;
+            }
+            updateDisplay(result);
+            currentInput = "";
+            firstOperand = "";
+            operator = "";
+        }
+
+        // Function to clear the display
+        function clearDisplay() {
+            currentInput = "";
+            firstOperand = "";
+            operator = "";
+            updateDisplay(0);
+        }
+
+        // Function to update display
+        function updateDisplay(value) {
+            document.getElementById("display").innerText = value;
+        }
+    </script>
 </body>
 </html>
